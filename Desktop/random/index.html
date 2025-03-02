@@ -3,21 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Random Number</title>
+    <title>Daily Number</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.cdnfonts.com/css/digital-7-mono" rel="stylesheet">
     <style>
-        @keyframes moveBackground {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
         body {
             font-family: 'Orbitron', sans-serif;
             background: linear-gradient(45deg, #ff0000, #000000, #ff0000);
             background-size: 200% 200%;
-            animation: moveBackground 6s infinite alternate;
             color: white;
             text-align: center;
             display: flex;
@@ -27,91 +19,39 @@
             margin: 0;
             flex-direction: column;
         }
-
         .container {
             background: rgba(255, 255, 255, 0.1);
             padding: 25px;
             border-radius: 12px;
             box-shadow: 0px 4px 15px rgba(255, 0, 0, 0.8);
             backdrop-filter: blur(8px);
-            transition: 0.3s;
         }
-
         h1 {
             font-size: 2.8rem;
-            text-shadow: 0px 0px 10px rgba(255, 0, 0, 0.8);
         }
-
         h2 {
-            font-family: 'Digital-7 Mono', sans-serif;
             font-size: 3.5rem;
-            margin: 20px 0;
             color: #ff4d4d;
-            text-shadow: 0px 0px 15px rgba(255, 77, 77, 0.8);
-        }
-
-        .logo {
-            width: 120px;
-            height: auto;
-            margin-bottom: 15px;
-            filter: drop-shadow(0px 0px 10px rgba(255, 0, 0, 0.8));
         }
     </style>
-    <script>
-        function generateDailyNumber() {
-            let now = new Date();
-            let todayDate = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
-            let storedData = JSON.parse(localStorage.getItem("dailyNumber"));
-
-            // If number is already stored for today, use it
-            if (storedData && storedData.date === todayDate) {
-                document.getElementById("randomNumber").innerText = storedData.number;
-                return;
+    <!-- <script>
+        async function loadNumber() {
+            try {
+                let response = await fetch("data.json?_=" + new Date().getTime()); // Prevent caching
+                let data = await response.json();
+                document.getElementById("randomNumber").innerText = data.number;
+            } catch (error) {
+                console.error("Error loading number:", error);
+                document.getElementById("randomNumber").innerText = "Error!";
             }
-
-            // Generate a new number only if it's a new day
-            let seed = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 0, 0).getTime();
-            function simpleHash(seed) {
-                return (seed * 9301 + 49297) % 233280;
-            }
-            let randomNumber = simpleHash(seed);
-            let result = Math.floor((randomNumber / 233280) * 44) + 1;
-
-            // Store the number in localStorage
-            localStorage.setItem("dailyNumber", JSON.stringify({ date: todayDate, number: result }));
-
-            document.getElementById("randomNumber").innerText = result;
         }
-
-        function checkForNewDay() {
-            let now = new Date();
-            let nextUpdate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 0, 0);
-
-            if (now >= nextUpdate) {
-                nextUpdate.setDate(nextUpdate.getDate() + 1);
-            }
-
-            let timeUntilUpdate = nextUpdate - now;
-
-            setTimeout(() => {
-                generateDailyNumber();
-                checkForNewDay();
-            }, timeUntilUpdate);
-        }
-
-        window.onload = function () {
-            generateDailyNumber();
-            checkForNewDay();
-        };
-    </script>
+        window.onload = loadNumber;
+    </script> -->
 </head>
 <body>
     <div class="container">
-        <img src="https://i.postimg.cc/BZpgLygX/Picsart-25-03-02-15-26-57-576.png" alt="Logo" class="logo">
-        <h1>TODAYS NUMBER</h1>
-        <h2 id="randomNumber">Loading...</h2>
+        <h1>Today's Number</h1>
+        <h2 id="randomNumber">5000</h2>
     </div>
 </body>
 </html>
-
-    
